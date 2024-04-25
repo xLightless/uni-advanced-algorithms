@@ -68,13 +68,13 @@ class Process(multiprocessing.Process):
                     s1 = f"PID: {self.process_id} {self.process_state}"
                     s2 = f"{finished_at} [{elapsed_time}] "
                     s3 = f"[{self.name} | {self.manager['result']}]"
-                    result = s1 + s2 + s3
+                    string_result = s1 + s2 + s3
 
-                    return result
+                    return string_result
                 return f"PID: {self.process_id} {self.process_state}."
 
-            self.process_state = "spawned"
-            process_spawn = "Spawned " + process_id
+            self.process_state = "Spawned"
+            process_spawn = self.process_state + process_id
             at_time = f" @ {processed_start_time}."
 
             if self.verbose:
@@ -82,7 +82,7 @@ class Process(multiprocessing.Process):
 
             return f"PID: {self.process_id} {self.process_state}."
 
-        except Exception as e:
+        except AttributeError as e:
             return f"Unable to evaluate Process ID: {self.process_id}, " + \
                 "terminating... " + f"ERROR: {e}."
 
@@ -92,10 +92,10 @@ class Process(multiprocessing.Process):
         """
 
         # self.process_state = ""
-        result = self.target(*self.args)
+        executed_result = self.target(*self.args)
         self.manager["end_time"] = datetime.now()
         self._process_status(1)
-        self.manager["result"] = result
+        self.manager["result"] = executed_result
         # self.queue.put((self.name, result))
         self.manager["process_state"] = "complete"
 
