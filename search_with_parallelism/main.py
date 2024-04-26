@@ -96,7 +96,6 @@ class Process(multiprocessing.Process):
         self.manager["end_time"] = datetime.now()
         self._process_status(1)
         self.manager["result"] = result
-        # self.queue.put((self.name, result))
         self.manager["process_state"] = "complete"
 
     def __str__(self):
@@ -179,7 +178,6 @@ class FrequencyCounter:
         Predicate:∀string_name∀counter∀row(get_frequency(string_name,counter,row).
         """
 
-        # return self.text.count(string_name)
         counter = 0
         for row in self.text_array:
             if string_name in row:
