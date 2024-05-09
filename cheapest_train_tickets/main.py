@@ -54,12 +54,12 @@ class CheapestTrainTickets:
         self.task_directory = self.current_directory + "\\tasks\\Task 1_4\\"
 
     def __str__(self):
-        s = input("Enter your Departure Location: ")
-        t = input("Enter your Destination Location: ")
+        s = input("[SEARCH] Enter your Departure Location: ")
+        t = input("[SEARCH] Enter your Destination Location: ")
         route, start_time, end_time = self.get_route(s, t)
-        cheapest_route = "The cheapest cost to the destination is: "
+        cheapest_route = "[RESULT] The cheapest cost to the destination is: "
 
-        return "%s\nTook %s seconds." % (
+        return "%s\n[RESULT] Took %s seconds." % (
             cheapest_route,
             end_time - start_time
         )
@@ -153,8 +153,6 @@ class CheapestTrainTickets:
             if i >= s_idx:
                 updated_dist[k] = v
 
-            print(updated_dist)
-
         idx = 0
         print("\nIndex | Station | Cost")
         for k, v in updated_dist.items():
@@ -166,32 +164,40 @@ class CheapestTrainTickets:
 
 if __name__ == '__main__':
     ctt = CheapestTrainTickets()
-    add_station = input(
-        "Would you like to add a new station to the raw data y/n: "
-    )
 
-    if add_station == "y":
-        bind_station = input(
-            "Enter [Existing station, destination, cost]: "
-        ).split(" ")
-
-        new_station = input(
-            "Enter [New station, destination, cost]: "
-        ).split(" ")
-
-        bind_source = bind_station[0]
-        bind_target = bind_station[1]
-        bind_weight = int(bind_station[2])
-
-        new_source = new_station[0]
-        new_target = new_station[1]
-        new_weight = int(new_station[2])
-
-        ctt.set_route(
-            ctt.task_directory +
-            "task1_4_railway_network.csv",
-            (bind_source, bind_target, bind_weight),
-            (new_source, new_target, new_weight)
+    while True:
+        add_station = input(
+            "[FEATURE] Would you like to add a new station to the raw data y/n: "
         )
 
-    print(ctt)
+        try:
+            if add_station == "y":
+                bind_station = input(
+                    "[FEATURE] Enter [Existing station, destination, cost]: "
+                ).split(" ")
+
+                new_station = input(
+                    "[FEATURE] Enter [New station, destination, cost]: "
+                ).split(" ")
+
+                bind_source = bind_station[0]
+                bind_target = bind_station[1]
+                bind_weight = int(bind_station[2])
+
+                new_source = new_station[0]
+                new_target = new_station[1]
+                new_weight = int(new_station[2])
+
+                ctt.set_route(
+                    ctt.task_directory +
+                    "task1_4_railway_network.csv",
+                    (bind_source, bind_target, bind_weight),
+                    (new_source, new_target, new_weight)
+                )
+            print(ctt)
+        except (ValueError, KeyError):
+            print("[ERROR] Could not find this route...")
+
+        end_process = input("[FEATURE] Would you to end this session y/n: ")
+        if end_process == "y":
+            break
