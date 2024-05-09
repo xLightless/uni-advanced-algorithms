@@ -59,18 +59,6 @@ class CheapestTrainTickets:
         route, start_time, end_time = self.get_route(s, t)
         cheapest_route = "The cheapest cost to the destination is: "
 
-        updated_routes = {}
-        s_idx = list(route.keys()).index(s)
-        for i, (k, v) in enumerate(route.items()):
-            if i >= s_idx:
-                updated_routes[k] = v
-
-        idx = 0
-        print("\nIndex | Station | Cost")
-        for k, v in updated_routes.items():
-            print(idx, k, v)
-            idx += 1
-
         return "%s\nTook %s seconds." % (
             cheapest_route,
             end_time - start_time
@@ -81,6 +69,9 @@ class CheapestTrainTickets:
         Pass in source (starting node) to return the shortest
         distances on the network.
         """
+
+        if len(s) == 0:
+            return []
 
         g = get_graph(
             self.task_directory +
@@ -115,6 +106,28 @@ class CheapestTrainTickets:
 
         return distances
 
+    def set_route(self, file_name: str, binded_data: tuple, new_data: tuple):
+        """
+        Append a new route to raw data containing
+        the departure to destination with a cost.
+        """
+
+        if len(binded_data) != 3:
+            return
+
+        if len(new_data) != 3:
+            return
+
+        with open(file_name, 'a', newline='', encoding='utf-8') as csvfile:
+            csvfile.write(
+                f"\n{binded_data[0]},{binded_data[1]},{binded_data[2]}"
+            )
+
+            csvfile.write(
+                f"\n{new_data[0]},{new_data[1]},{new_data[2]}"
+            )
+            csvfile.close()
+
     def get_route(self, s, t):
         """
         Input two station names for departure and destination
@@ -134,9 +147,51 @@ class CheapestTrainTickets:
             if next_node == t:
                 break
 
+        updated_dist = {}
+        s_idx = list(dist.keys()).index(s)
+        for i, (k, v) in enumerate(dist.items()):
+            if i >= s_idx:
+                updated_dist[k] = v
+
+            print(updated_dist)
+
+        idx = 0
+        print("\nIndex | Station | Cost")
+        for k, v in updated_dist.items():
+            print(idx, k, v)
+            idx += 1
+
         return dist, start_time, end_time
 
 
 if __name__ == '__main__':
     ctt = CheapestTrainTickets()
+    add_station = input(
+        "Would you like to add a new station to the raw data y/n: "
+    )
+
+    if add_station == "y":
+        bind_station = input(
+            "Enter [Existing station, destination, cost]: "
+        ).split(" ")
+
+        new_station = input(
+            "Enter [New station, destination, cost]: "
+        ).split(" ")
+
+        bind_source = bind_station[0]
+        bind_target = bind_station[1]
+        bind_weight = int(bind_station[2])
+
+        new_source = new_station[0]
+        new_target = new_station[1]
+        new_weight = int(new_station[2])
+
+        ctt.set_route(
+            ctt.task_directory +
+            "task1_4_railway_network.csv",
+            (bind_source, bind_target, bind_weight),
+            (new_source, new_target, new_weight)
+        )
+
     print(ctt)
