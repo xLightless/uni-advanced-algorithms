@@ -92,6 +92,9 @@ class LongestSubstrings:
         substrings = self.get_longest_substring()
         end_time = time.time()
         elapsed_time = end_time - start_time
+
+        if len(substrings) == 0:
+            return "[WARNING] No valid substrings were found!"
         return f"{substrings}.\nTook {elapsed_time} seconds."
 
 
