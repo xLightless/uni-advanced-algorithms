@@ -175,7 +175,6 @@ class FrequencyCounter:
     def get_frequency(self, string_name) -> int:
         """
         Returns the total frequency of a string.
-        Predicate:∀string_name∀counter∀row(get_frequency(string_name,counter,row).
         """
 
         counter = 0
