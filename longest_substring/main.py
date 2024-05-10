@@ -96,5 +96,6 @@ class LongestSubstrings:
 
 
 if __name__ == "__main__":
-    longest_substring = LongestSubstrings(k=2)
+    k_input = input("Enter substring, k, length: ")
+    longest_substring = LongestSubstrings(k=int(k_input))
     print(longest_substring)
