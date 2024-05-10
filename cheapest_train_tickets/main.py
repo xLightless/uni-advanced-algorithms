@@ -60,7 +60,7 @@ class CheapestTrainTickets:
         cheapest_route = "[RESULT] The cheapest cost to the destination is: "
 
         return "%s\n[RESULT] Took %s seconds." % (
-            cheapest_route,
+            cheapest_route + str(route.get(t)),
             end_time - start_time
         )
 
