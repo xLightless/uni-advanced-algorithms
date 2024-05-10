@@ -62,6 +62,9 @@ class PasswordGenerator:
             num_capitals: int,
             num_symbols: int
         ):
+
+            # Guard clause return statement to check if theres
+            # a need to perform recursion
             if current_index == self.password_length:
                 if (
                     capitals_used and
@@ -72,6 +75,7 @@ class PasswordGenerator:
                     return ["".join(password)]
                 return []
 
+            # Create an array and passwords to store
             accumulated_passwords = []
             for char in self.categories:
                 new_password = password + [char]
@@ -115,6 +119,7 @@ class PasswordGenerator:
                 )
             return accumulated_passwords
 
+        # Update rules to false for the next recursion
         capitals_used = False
         lowercase_used = False
         numericals_used = False
@@ -171,7 +176,8 @@ if __name__ == '__main__':
 
     # Create a graph of the user input over multiple runs.
     # We use a seperate elapsed time as this loops over
-    # multiple instances whereas __str__ is designed for one
+    # multiple instances whereas __str__ is designed for a
+    # a single ran instance.
     if GRAPH:
         for i in range(RUNS):
             i_start_time = time.time()
